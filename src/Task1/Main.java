@@ -3,54 +3,63 @@ package Task1;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static StringBuilder stringBuilder = new StringBuilder();
-    public static void fileCreator1 (File file) {
-        if (file.getPath().contains(".")) {
-            try {
-                if (file.exists() || file.createNewFile()) {
-                    stringBuilder.append(file.getName() + " is created" + ";" + "\n");
-                } else {
-                    stringBuilder.append(file.getName() + " is not created" + ";" + "\n");
-                }
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
-            }
-        } else {
-            if (file.exists() || file.mkdir()) {
+
+    public static void fileCreator(String path){
+        File file = new File(path);
+        try {
+            if (file.exists() || file.createNewFile()) {
                 stringBuilder.append(file.getName() + " is created" + ";" + "\n");
             } else {
                 stringBuilder.append(file.getName() + " is not created" + ";" + "\n");
             }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
+
+    public static void directoryCreator(String path) {
+        File file = new File(path);
+        if (file.exists() || file.mkdir()) {
+            stringBuilder.append(file.getName() + " is created" + ";" + "\n");
+        } else {
+            stringBuilder.append(file.getName() + " is not created" + ";" + "\n");
+        }
+    }
+
     public static void main(String[] args) {
-        File src = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\src");
-        File res = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\res");
-        File savegames = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\savegames");
-        File temp = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\temp");
-        File main = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\src\\main");
-        File test = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\src\\test");
-        File mainMain = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\src\\main\\Main.java");
-        File mainUtils = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\src\\main\\Utils.java");
-        File drawables = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\res\\drawables");
-        File vectors = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\res\\vectors");
-        File icons = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\res\\icons");
-        File tempTemp = new File("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\temp\\temp.txt");
-        Main.fileCreator1(src);
-        Main.fileCreator1(res);
-        Main.fileCreator1(savegames);
-        Main.fileCreator1(temp);
-        Main.fileCreator1(main);
-        Main.fileCreator1(mainMain);
-        Main.fileCreator1(mainUtils);
-        Main.fileCreator1(drawables);
-        Main.fileCreator1(vectors);
-        Main.fileCreator1(icons);
-        Main.fileCreator1(tempTemp);
+
+        List<String> fileList = new ArrayList<>(Arrays.asList(
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\src\\main\\Main.java",
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\src\\main\\Utils.java",
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\temp\\temp.txt"));
+
+        List<String> directoryList = new ArrayList<>(Arrays.asList(
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\src",
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\res",
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\savegames",
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\temp",
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\src\\main",
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\src\\test",
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\res\\drawables",
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\res\\vectors",
+                "C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\res\\icons"));
+
+        for (String path: directoryList) {
+            Main.directoryCreator(path);
+        }
+
+        for (String path: fileList) {
+            Main.fileCreator(path);
+        }
+
         String text = Main.stringBuilder.toString();
-        System.out.println(Main.stringBuilder.toString());
+        System.out.println(text);
         try (FileWriter writer = new FileWriter("C:\\Users\\1\\OneDrive\\Рабочий стол\\Games\\temp\\temp.txt", false)) {
             writer.write(text);
             writer.flush();
